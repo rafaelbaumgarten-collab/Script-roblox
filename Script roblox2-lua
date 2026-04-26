@@ -1,0 +1,92 @@
+-- =============================================
+-- PAINEL BÁSICO PARA ROBLOX - by Rafael
+-- =============================================
+
+local player = game.Players.LocalPlayer
+local mouse = player:GetMouse()
+
+-- Cria a ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "PainelBasico"
+screenGui.Parent = player:WaitForChild("PlayerGui")
+screenGui.ResetOnSpawn = false
+
+-- Frame principal
+local mainFrame = Instance.new("Frame")
+mainFrame.Name = "MainFrame"
+mainFrame.Size = UDim2.new(0, 300, 0, 400)
+mainFrame.Position = UDim2.new(0.5, -150, 0.5, -200)
+mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+mainFrame.BorderSizePixel = 0
+mainFrame.Parent = screenGui
+
+-- Título
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, 0, 0, 50)
+title.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
+title.Text = "🎮 Painel Básico"
+title.TextColor3 = Color3.new(1, 1, 1)
+title.TextScaled = true
+title.Font = Enum.Font.GothamBold
+title.Parent = mainFrame
+
+-- Função para criar botões
+local function createButton(text, positionY, callback)
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(0.9, 0, 0, 50)
+    button.Position = UDim2.new(0.05, 0, 0, positionY)
+    button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    button.Text = text
+    button.TextColor3 = Color3.new(1, 1, 1)
+    button.TextScaled = true
+    button.Font = Enum.Font.Gotham
+    button.Parent = mainFrame
+    
+    button.MouseButton1Click:Connect(callback)
+    
+    -- Efeito hover
+    button.MouseEnter:Connect(function()
+        button.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+    end)
+    button.MouseLeave:Connect(function()
+        button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    end)
+    
+    return button
+end
+
+-- Funções do Painel
+
+createButton("🚀 Fly (Toggle)", 60, function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/XNXXScripts/FE-Fly/main/Fly.lua"))()
+    print("Fly ativado!")
+end)
+
+createButton("⚡ Speed Boost", 120, function()
+    local char = player.Character or player.CharacterAdded:Wait()
+    local humanoid = char:WaitForChild("Humanoid")
+    humanoid.WalkSpeed = 100
+    print("Speed aumentado para 100!")
+end)
+
+createButton("🔄 Reset Speed", 180, function()
+    local char = player.Character or player.CharacterAdded:Wait()
+    local humanoid = char:WaitForChild("Humanoid")
+    humanoid.WalkSpeed = 16
+    print("Speed resetado!")
+end)
+
+createButton("👁 ESP (Jogadores)", 240, function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/LucasFIN321/ESP/main/ESP.lua"))()
+    print("ESP ativado!")
+end)
+
+createButton("❌ Fechar Painel", 300, function()
+    screenGui:Destroy()
+    print("Painel fechado.")
+end)
+
+print("✅ Painel Básico carregado com sucesso!")
+print("Pressione 'RightShift' para abrir/fechar o painel (se quiser adicionar depois)")
+
+-- Dica: Para mover o painel, você pode adicionar drag mais tarde
